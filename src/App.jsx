@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminLogin from './components/AdminLogin';
 import UserRegistration from './components/UserRegistration';
 import UserLogin from './components/UserLogin';
@@ -15,6 +15,12 @@ const App = () => {
   const [showUserRegistration, setShowUserRegistration] = useState(false);
   const [userScores, setUserScores] = useState([]); // Store user scores
 
+  // Load registered users from localStorage on initial render
+  useEffect(() => {
+    const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    setRegisteredUsers(storedUsers);
+  }, []);
+
   const toggleTheme = () => {
     setTheme(theme === 'light' ? 'dark' : 'light');
   };
@@ -28,7 +34,9 @@ const App = () => {
   };
 
   const handleUserRegistration = (newUser) => {
-    setRegisteredUsers([...registeredUsers, newUser]);
+    const updatedUsers = [...registeredUsers, newUser];
+    setRegisteredUsers(updatedUsers);
+    localStorage.setItem('registeredUsers', JSON.stringify(updatedUsers)); // Store in localStorage
     setShowUserRegistration(false); // Switch to login after registration
   };
 
@@ -45,7 +53,8 @@ const App = () => {
       <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
       {!userType ? (
         <>
-          <h1>Welcome to the VECROS Quiz App</h1>
+          <h1>Welcome to the Vercos Quiz </h1>
+          <h2>Challenge Your Mind, Join the Fun!</h2>
           <AdminLogin onAdminLogin={handleAdminLogin} />
           <div>
             <button onClick={() => setShowUserRegistration(!showUserRegistration)}>
@@ -67,7 +76,7 @@ const App = () => {
         </>
       ) : (
         <>
-          <h1>Welcome !!!</h1>
+          <h1>Welcome, User!</h1>
           <UserDashboard onHomeClick={handleHomeClick} onQuizCompletion={handleQuizCompletion} />
         </>
       )}

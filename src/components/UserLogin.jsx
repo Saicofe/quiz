@@ -1,23 +1,34 @@
+// src/components/UserLogin.js
 import React, { useState } from 'react';
 
 const UserLogin = ({ onUserLogin, registeredUsers }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = () => {
-    const user = registeredUsers.find(
+    if (!username || !password) {
+      setError('Please fill in all fields.');
+      return;
+    }
+
+    const storedUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    const user = storedUsers.find(
       (user) => user.username === username && user.password === password
     );
+
     if (user) {
-      onUserLogin();
+      onUserLogin(username);
+      setError('');
     } else {
-      alert('Invalid user credentials');
+      setError('Invalid username or password.');
     }
   };
 
   return (
     <div>
       <h2>User Login</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <input
         type="text"
         placeholder="Username"

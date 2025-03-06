@@ -108,7 +108,7 @@ const UserDashboard = ({ onHomeClick, onQuizCompletion }) => {
 
   return (
     <div>
-      <h2>User Dashboard</h2>
+      <h2>{username} Dashboard</h2>
       <div className="home-button">
         <button onClick={onHomeClick}>Home</button>
       </div>

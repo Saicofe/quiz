@@ -16,6 +16,7 @@ const AdminLogin = ({ onAdminLogin }) => {
   return (
     <div>
       <h2>Admin Login</h2>
+      <h6>If you are admin go through README file for credentials</h6>
       <input
         type="text"
         placeholder="Username"
